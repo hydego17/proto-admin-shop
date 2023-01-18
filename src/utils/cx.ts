@@ -2,6 +2,26 @@ type ClassValue = ClassArray | ClassDictionary | string | number | null | boolea
 type ClassDictionary = Record<string, any>;
 type ClassArray = ClassValue[];
 
+/**
+ * clsx implementation utils.
+ */
+export function cx(...inputs: ClassValue[]) {
+  let i = 0;
+  let tmp;
+  let x;
+  let str = '';
+
+  while (i < inputs.length) {
+    if ((tmp = inputs[i++])) {
+      if ((x = getVal(tmp))) {
+        str && (str += ' ');
+        str += x;
+      }
+    }
+  }
+  return str;
+}
+
 function getVal(mix: any) {
   let k;
   let y;
@@ -29,25 +49,5 @@ function getVal(mix: any) {
     }
   }
 
-  return str;
-}
-
-/**
- * clsx implementation utils.
- */
-export function cx(...inputs: ClassValue[]) {
-  let i = 0;
-  let tmp;
-  let x;
-  let str = '';
-
-  while (i < inputs.length) {
-    if ((tmp = inputs[i++])) {
-      if ((x = getVal(tmp))) {
-        str && (str += ' ');
-        str += x;
-      }
-    }
-  }
   return str;
 }
