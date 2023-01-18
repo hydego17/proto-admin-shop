@@ -22,6 +22,10 @@ td {
   @apply truncate;
 }
 
+.table-container {
+  @apply overflow-auto smooth-scrollbar;
+}
+
 .container {
   @apply mx-auto px-4;
 

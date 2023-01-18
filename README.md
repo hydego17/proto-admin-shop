@@ -1,1 +1,1 @@
-## Shopping App
+## Admin Shop App
