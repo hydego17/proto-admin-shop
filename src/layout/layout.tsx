@@ -63,7 +63,9 @@ const AppHeader = () => {
           <Burger opened={navbarOpened} onClick={() => toggleNavbar((o) => !o)} size='sm' mr='lg' />
         </MediaQuery>
 
-        <div className='font-bold text-xl lg:text-2xl'>Admin Shop</div>
+        <Link href='/' onClick={() => toggleNavbar((o) => !o)}>
+          <div className='font-bold text-xl'>Admin Shop</div>
+        </Link>
       </div>
     </Header>
   );

@@ -47,3 +47,12 @@ td {
   @apply absolute inset-0 w-full h-full bg-[#000000];
   opacity: 0.5;
 }
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}

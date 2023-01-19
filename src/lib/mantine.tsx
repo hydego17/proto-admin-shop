@@ -6,6 +6,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 const theme: MantineThemeOverride = {
   datesLocale: 'id',
   loader: 'dots',
+  primaryColor: 'violet',
 };
 
 const appendCache = createEmotionCache({ key: 'app', prepend: true });

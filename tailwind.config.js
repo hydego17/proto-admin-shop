@@ -16,6 +16,9 @@ module.exports = {
         '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
         '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
       },
+      animation: {
+        show: 'show 0.3s forwards',
+      },
     },
   },
   /**
