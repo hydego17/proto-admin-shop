@@ -1,13 +1,21 @@
 import { useState } from 'react';
-import { Pagination, Table, TextInput } from '@mantine/core';
 import { TbSearch } from 'react-icons/tb';
 import debounce from 'lodash.debounce';
 
 import { formatPrice } from '@/utils';
 import { useGetProducts } from '@/services/products';
+import { useCreateTable } from '@/components/table';
+import Input from '@/components/input';
+import Pagination from '@/components/pagination';
 
-const PER_PAGE = 12;
+const PER_PAGE = 10;
 
+/**
+ * App products page.
+ *
+ * @access public
+ * @route /products
+ */
 export default function ProductPage() {
   // set params for product query
   const [params, setParams] = useState({
@@ -31,67 +39,43 @@ export default function ProductPage() {
     setParams((prev) => ({ ...prev, page }));
   };
 
+  // Create table components from data
+  const [Table, TableItem] = useCreateTable({
+    data: data?.products,
+    status,
+  });
+
   return (
     <div>
       <div className='flex flex-col md:flex-row gap-4 justify-between'>
         <h1 className='text-2xl font-bold'>Products</h1>
 
         <div>
-          <TextInput icon={<TbSearch />} placeholder='Search product' onChange={handleSearch} />
+          <Input
+            controlled
+            icon={<TbSearch />}
+            placeholder='Search product'
+            onChange={handleSearch}
+            className='min-w-[300px]'
+          />
         </div>
       </div>
 
       <hr />
 
-      <div className='table-container bg-white'>
-        <Table striped withBorder highlightOnHover withColumnBorders horizontalSpacing='md'>
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Brand</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Category</th>
-            </tr>
-          </thead>
-          <tbody>
-            {status === 'loading' &&
-              Array(PER_PAGE)
-                .fill(0)
-                .map((_, idx) => (
-                  <tr key={idx} className='animate-show'>
-                    <td className='animate-pulse' colSpan={5}>
-                      <div className='bg-slate-200 h-6' />
-                    </td>
-                  </tr>
-                ))}
-
-            {status === 'success' && isEmpty ? (
-              <tr className='animate-show'>
-                <td colSpan={5}>
-                  <div className='py-8 text-center text-slate-500'>No Product Found</div>
-                </td>
-              </tr>
-            ) : (
-              data?.products.map((p) => (
-                <tr key={p.id} className='animate-show'>
-                  <td>{p.title}</td>
-                  <td>{p.brand}</td>
-                  <td>{formatPrice(p.price)}</td>
-                  <td>{p.stock}</td>
-                  <td>{p.category}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </Table>
-      </div>
+      <Table>
+        <TableItem dataKey='title' label='Product Name' width='30%' />
+        <TableItem dataKey='brand' label='Brand' width='20%' />
+        <TableItem dataKey='price' label='Price' width='20%' format={formatPrice} />
+        <TableItem dataKey='stock' label='Stock' width='10%' />
+        <TableItem dataKey='category' label='Category' width='20%' />
+      </Table>
 
       <hr />
 
       <div className='flex justify-center'>
-        {data && (
-          <Pagination size='sm' page={params.page} onChange={handleChangePage} total={data.total} siblings={1} />
+        {status === 'success' && (
+          <Pagination page={params.page} perPage={params.perPage} total={data.total} onChange={handleChangePage} />
         )}
       </div>
     </div>

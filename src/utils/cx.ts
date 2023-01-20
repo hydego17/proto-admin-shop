@@ -3,7 +3,7 @@ type ClassDictionary = Record<string, any>;
 type ClassArray = ClassValue[];
 
 /**
- * clsx implementation utils.
+ * clsx implementation utils for class names.
  */
 export function cx(...inputs: ClassValue[]) {
   let i = 0;

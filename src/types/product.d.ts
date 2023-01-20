@@ -1,4 +1,6 @@
-interface Product {
+import { ApiResponse } from "./api";
+
+export interface Product {
   id: number;
   title: string;
   description: string;
@@ -11,3 +13,5 @@ interface Product {
   thumbnail: string;
   images: string[];
 }
+
+export type ProductResponse = ApiResponse<'products', Product[]>;

@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { atom, useAtom } from 'jotai';
-import { AppShell, Navbar, Header, Footer, MediaQuery, Burger } from '@mantine/core';
+import { AppShell, Navbar, Header, Footer, MediaQuery, Burger, Badge, Indicator } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import * as TB from 'react-icons/tb';
 import { cx } from '@/utils/cx';
+
+const CartIndicator = dynamic(() => import('@/components/cart-indicator'), { ssr: false });
 
 const navbarAtom = atom(false);
 
@@ -32,6 +35,8 @@ const AppNavbar = () => {
         <div>
           {navMenus.map((menu) => {
             const active = menu.href === activePage || activePage.includes(menu.href);
+            const showCarts = menu.href === '/carts';
+
             return (
               <Link
                 key={menu.href}
@@ -42,8 +47,15 @@ const AppNavbar = () => {
                   active ? 'bg-violet-500 text-white' : 'hover:bg-slate-100'
                 )}
               >
-                <menu.icon size={20} />
-                <span className='font-medium truncate'>{menu.label}</span>
+                <div>
+                  <menu.icon size={20} />
+                </div>
+
+                <div className='font-medium truncate flex items-center'>
+                  <span>{menu.label}</span>
+
+                  {showCarts && <CartIndicator className='ml-2' />}
+                </div>
               </Link>
             );
           })}

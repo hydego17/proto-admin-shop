@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { queryKeys } from '@/constants/query-keys';
-import { http } from '@/lib/http';
-import type { ApiResponse } from '@/types/api';
 
-type ProductResponse = ApiResponse<'products', Product[]>;
+import { http } from '@/lib/http';
+import { queryKeys } from '@/constants/query-keys';
+import type { ProductResponse } from '@/types/product';
 
 type ProductParams = {
   search?: string;
@@ -16,8 +15,8 @@ function getProducts({ search, page, perPage }: ProductParams) {
     .get<ProductResponse>(!!search ? `/products/search` : `/products`, {
       params: {
         q: search,
-        skip: page - 1,
         limit: perPage,
+        skip: perPage * (page - 1),
       },
     })
     .then((res) => res.data);
