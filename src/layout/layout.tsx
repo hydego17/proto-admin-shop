@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { atom, useAtom } from 'jotai';
-import { AppShell, Navbar, Header, Footer, MediaQuery, Burger, Badge, Indicator } from '@mantine/core';
+import { AppShell, Navbar, Header, Footer, MediaQuery, Burger, Badge, Indicator, ActionIcon } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import * as TB from 'react-icons/tb';
 import { cx } from '@/utils/cx';
@@ -69,15 +69,27 @@ const AppHeader = () => {
   const [navbarOpened, toggleNavbar] = useAtom(navbarAtom);
 
   return (
-    <Header height={{ base: 50, md: 70 }} p='md'>
+    <Header height={{ base: 60, md: 70 }} p='md'>
       <div className='h-full flex items-center '>
         <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
           <Burger opened={navbarOpened} onClick={() => toggleNavbar((o) => !o)} size='sm' mr='lg' />
         </MediaQuery>
 
-        <Link href='/' onClick={() => toggleNavbar((o) => !o)}>
-          <div className='font-bold text-xl'>Admin Shop</div>
-        </Link>
+        <div className='flex flex-1 justify-between'>
+          <div className='flex items-center'>
+            <Link href='/' onClick={() => toggleNavbar((o) => !o)}>
+              <div className='font-bold text-xl'>Admin Shop</div>
+            </Link>
+          </div>
+
+          <div>
+            <Link href='https://github.com/hydego17/proto-admin-shop' target='_blank'>
+              <ActionIcon color='dark' size='lg' variant='filled' radius='xl'>
+                <TB.TbBrandGithub size={18} />
+              </ActionIcon>
+            </Link>
+          </div>
+        </div>
       </div>
     </Header>
   );

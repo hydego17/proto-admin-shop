@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { formatPrice } from '@/utils';
 import { useGetCarts } from '@/services/carts';
 import { useGlobalStore } from '@/store';
-import Pagination from '@/components/pagination';
 import { useCreateTable } from '@/components/table';
+import Pagination from '@/components/pagination';
 
 const PER_PAGE = 10;
 
 /**
- * App carts page.
+ * App Carts Page.
  *
  * @access public
  * @route /carts
@@ -32,9 +32,6 @@ export default function CartPage() {
     },
   });
 
-  const isEmpty = !data?.carts.length;
-  const totalCarts = data?.total ?? 0;
-
   // Pagination handler
   const handleChangePage = (page) => {
     setParams((prev) => ({ ...prev, page }));
@@ -48,7 +45,7 @@ export default function CartPage() {
   return (
     <div>
       <div>
-        <h1 className='text-2xl font-bold'>Carts ({totalCarts})</h1>
+        <h1 className='text-2xl font-bold'>Carts ({data?.total ?? 0})</h1>
       </div>
 
       <hr />
@@ -64,7 +61,7 @@ export default function CartPage() {
       <hr />
 
       <div className='flex justify-center'>
-        {status === 'success' && (
+        {data && (
           <Pagination page={params.page} perPage={params.perPage} total={data.total} onChange={handleChangePage} />
         )}
       </div>

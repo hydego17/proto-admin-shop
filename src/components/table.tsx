@@ -43,6 +43,8 @@ export const useCreateTable = <T extends UnknownArray>({
           .filter((el) => el.type === TableItem)
           .map((c) => ({ ...c.props })) as ItemProps<T>[];
 
+        const defaultWidth = `${100 / items.length}%`;
+
         return (
           <div className='table-container bg-white' {...props}>
             <MantineTable striped withBorder highlightOnHover withColumnBorders horizontalSpacing='md'>
@@ -67,13 +69,19 @@ export const useCreateTable = <T extends UnknownArray>({
                         </td>
                       </tr>
                     ))}
-                {status === 'success' || data?.length ? (
+                {status === 'success' && !data?.length ? (
+                  <tr className='animate-show'>
+                    <td colSpan={items.length}>
+                      <div className='py-8 text-center text-slate-500'>No Product Found</div>
+                    </td>
+                  </tr>
+                ) : (
                   data?.map((value, i) => {
                     return (
                       <tr key={value.id ?? i} className='animate-show'>
                         {items.map((item) => {
                           return (
-                            <td key={item.dataKey as string} style={{ width: item.width }}>
+                            <td key={item.dataKey as string} style={{ width: item.width ?? defaultWidth }}>
                               {item.format ? item.format(value[item.dataKey]) : value[item.dataKey]}
                             </td>
                           );
@@ -81,12 +89,6 @@ export const useCreateTable = <T extends UnknownArray>({
                       </tr>
                     );
                   })
-                ) : (
-                  <tr className='animate-show'>
-                    <td colSpan={items.length}>
-                      <div className='py-8 text-center text-slate-500'>No Product Found</div>
-                    </td>
-                  </tr>
                 )}
               </tbody>
             </MantineTable>

@@ -5,13 +5,13 @@ import debounce from 'lodash.debounce';
 import { formatPrice } from '@/utils';
 import { useGetProducts } from '@/services/products';
 import { useCreateTable } from '@/components/table';
-import Input from '@/components/input';
 import Pagination from '@/components/pagination';
+import Input from '@/components/input';
 
 const PER_PAGE = 10;
 
 /**
- * App products page.
+ * App Products Page.
  *
  * @access public
  * @route /products
@@ -26,7 +26,6 @@ export default function ProductPage() {
 
   // Get filtered products
   const { data, status } = useGetProducts(params);
-  const isEmpty = !data?.products.length;
 
   // Handle user search input
   const handleSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,17 +63,17 @@ export default function ProductPage() {
       <hr />
 
       <Table>
-        <TableItem dataKey='title' label='Product Name' width='30%' />
-        <TableItem dataKey='brand' label='Brand' width='20%' />
-        <TableItem dataKey='price' label='Price' width='20%' format={formatPrice} />
-        <TableItem dataKey='stock' label='Stock' width='10%' />
-        <TableItem dataKey='category' label='Category' width='20%' />
+        <TableItem label='Product Name' dataKey='title' width='30%' />
+        <TableItem label='Brand' dataKey='brand' width='20%' />
+        <TableItem label='Price' dataKey='price' width='20%' format={formatPrice} />
+        <TableItem label='Stock' dataKey='stock' width='10%' />
+        <TableItem label='Category' dataKey='category' width='20%' />
       </Table>
 
       <hr />
 
       <div className='flex justify-center'>
-        {status === 'success' && (
+        {data && (
           <Pagination page={params.page} perPage={params.perPage} total={data.total} onChange={handleChangePage} />
         )}
       </div>
