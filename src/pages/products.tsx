@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { TbSearch } from 'react-icons/tb';
-import { Select } from '@mantine/core';
 import debounce from 'lodash.debounce';
 
 import { formatPrice } from '@/utils';
@@ -61,20 +60,6 @@ export default function ProductPage() {
             onChange={handleSearch}
             className='min-w-[300px]'
           />
-        </div>
-      </div>
-
-      <hr />
-
-      <div className='flex items-end'> 
-        <div>
-          {categories && (
-            <Select
-              label='Categories'
-              placeholder='Select categories'
-              data={categories}
-            />
-          )}
         </div>
       </div>
 
