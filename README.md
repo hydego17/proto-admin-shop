@@ -49,20 +49,4 @@ npm run dev
 yarn dev
 ```
 
-### Run the test:
-
-**Note:** The test suite uses `jsdom` as environment. In order to work properly, you need to run the dev server first!
-
-```sh
-pnpm test
-
-# or
-
-npm run test
-
-# or
-
-yarn test
-```
-
 Go to http://localhost:3000/.

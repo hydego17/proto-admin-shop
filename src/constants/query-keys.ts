@@ -3,6 +3,7 @@
  */
 export const queryKeys = {
   products: 'Products',
+  productCategories: 'Product Categories',
   carts: 'Carts',
   cartDetail: 'Cart Detail',
 } as const;

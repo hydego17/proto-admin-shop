@@ -10,18 +10,23 @@ type ProductParams = {
   perPage: number;
 };
 
-function getProducts({ search, page, perPage }: ProductParams) {
-  return http
-    .get<ProductResponse>(!!search ? `/products/search` : `/products`, {
-      params: {
-        q: search,
-        limit: perPage,
-        skip: perPage * (page - 1),
-      },
-    })
-    .then((res) => res.data);
-}
-
 export const useGetProducts = (params: ProductParams) => {
-  return useQuery([queryKeys.products, params], () => getProducts(params));
+  return useQuery([queryKeys.products, params], () => {
+    let { search, page, perPage } = params;
+    return http
+      .get<ProductResponse>(!!search ? `/products/search` : `/products`, {
+        params: {
+          q: search,
+          limit: perPage,
+          skip: perPage * (page - 1),
+        },
+      })
+      .then((res) => res.data);
+  });
+};
+
+export const useGetProductCategories = () => {
+  return useQuery([queryKeys.productCategories], () => {
+    return http.get<string[]>('/products/categories').then((res) => res.data);
+  });
 };

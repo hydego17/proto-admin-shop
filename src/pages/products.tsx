@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { TbSearch } from 'react-icons/tb';
+import { Select } from '@mantine/core';
 import debounce from 'lodash.debounce';
 
 import { formatPrice } from '@/utils';
-import { useGetProducts } from '@/services/products';
+import { useGetProductCategories, useGetProducts } from '@/services/products';
 import { useCreateTable } from '@/components/table';
 import Pagination from '@/components/pagination';
 import Input from '@/components/input';
@@ -26,6 +27,9 @@ export default function ProductPage() {
 
   // Get filtered products
   const { data, status } = useGetProducts(params);
+
+  // Get all categories
+  const { data: categories } = useGetProductCategories();
 
   // Handle user search input
   const handleSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +61,20 @@ export default function ProductPage() {
             onChange={handleSearch}
             className='min-w-[300px]'
           />
+        </div>
+      </div>
+
+      <hr />
+
+      <div className='flex items-end'> 
+        <div>
+          {categories && (
+            <Select
+              label='Categories'
+              placeholder='Select categories'
+              data={categories}
+            />
+          )}
         </div>
       </div>
 
