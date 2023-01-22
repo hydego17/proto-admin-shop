@@ -4,4 +4,5 @@
 export const queryKeys = {
   products: 'Products',
   carts: 'Carts',
+  cartDetail: 'Cart Detail',
 } as const;

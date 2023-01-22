@@ -20,4 +20,4 @@ export interface Cart {
   userId: number;
 }
 
-export type CartResponse = ApiResponse<'carts', Cart[]>;
+export type CartsResponse = ApiResponse<'carts', Cart[]>;

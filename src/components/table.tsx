@@ -2,12 +2,14 @@
 import React, { isValidElement, useMemo, type ReactElement, type ReactNode } from 'react';
 import { Table as MantineTable } from '@mantine/core';
 import type { InferArrayElement } from '@/utils/types';
+import { cx } from '@/utils';
 
 type UnknownArray = any[];
 
 type TableComponent<T extends UnknownArray> = (
   props: React.ComponentProps<'div'> & {
     data?: T;
+    onDetailClick?(id): void;
   }
 ) => JSX.Element;
 
@@ -36,7 +38,7 @@ export const useCreateTable = <T extends UnknownArray>({
   // Create table wrapper
   const TableComponent = useMemo<TableComponent<T>>(
     () =>
-      ({ children, ...props }) => {
+      ({ children, onDetailClick, ...props }) => {
         // Acsess this component children and map them into our desired structured content
         const items = React.Children.toArray(children)
           .filter<ReactElement>(isValidElement)
@@ -45,9 +47,21 @@ export const useCreateTable = <T extends UnknownArray>({
 
         const defaultWidth = `${100 / items.length}%`;
 
+        const handleDetailClick = (value) => {
+          if ('id' in value && onDetailClick) {
+            onDetailClick(value.id);
+          }
+        };
+
         return (
           <div className='table-container bg-white' {...props}>
-            <MantineTable striped withBorder highlightOnHover withColumnBorders horizontalSpacing='md'>
+            <MantineTable
+              striped
+              withBorder
+              withColumnBorders
+              horizontalSpacing='md'
+              highlightOnHover={!!onDetailClick}
+            >
               <thead>
                 <tr>
                   {items.map((item) => (
@@ -78,7 +92,11 @@ export const useCreateTable = <T extends UnknownArray>({
                 ) : (
                   data?.map((value, i) => {
                     return (
-                      <tr key={value.id ?? i} className='animate-show'>
+                      <tr
+                        key={value.id ?? i}
+                        onClick={() => handleDetailClick(value)}
+                        className={cx('animate-show', !!onDetailClick && 'cursor-pointer')}
+                      >
                         {items.map((item) => {
                           return (
                             <td key={item.dataKey as string} style={{ width: item.width ?? defaultWidth }}>

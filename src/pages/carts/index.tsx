@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { formatPrice } from '@/utils';
 import { useGetCarts } from '@/services/carts';
@@ -15,6 +16,7 @@ const PER_PAGE = 10;
  * @route /carts
  */
 export default function CartPage() {
+  const router = useRouter();
   const { updateStore } = useGlobalStore();
 
   // set params for carts query
@@ -42,6 +44,10 @@ export default function CartPage() {
     status,
   });
 
+  const handleDetailClick = (id) => {
+    router.push(`/carts/${id}`);
+  };
+
   return (
     <div>
       <div>
@@ -50,7 +56,7 @@ export default function CartPage() {
 
       <hr />
 
-      <Table>
+      <Table onDetailClick={handleDetailClick}>
         <TableItem label='User ID' dataKey='id' />
         <TableItem label='Total Product' dataKey='totalProducts' />
         <TableItem label='Quantity' dataKey='totalQuantity' />
